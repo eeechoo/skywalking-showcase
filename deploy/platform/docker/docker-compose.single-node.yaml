@@ -26,13 +26,15 @@ services:
       - 2121
     ports:
       - "17913:17913"
-      - "2121:2121"
-    command: standalone
+      - "12121:2121"
+    command:
+      - standalone
+      - --node-host-provider=ip
     healthcheck:
       test: ["CMD", "nc", "-z", "127.0.0.1", "17913"]
       interval: 30s
       timeout: 10s
-      retries: 3
+      retries: 30
 
   oap:
     image: ${SW_OAP_IMAGE}:${SW_OAP_IMAGE_TAG}
@@ -45,7 +47,7 @@ services:
     environment:
       SW_HEALTH_CHECKER: default # @feature: health-check;
       SW_OTEL_RECEIVER: default # @feature: vm; enable the OC receiver that receives the VM metrics
-      SW_OTEL_RECEIVER_ENABLED_OTEL_METRICS_RULES: banyandb,vm,mysql/*,postgresql/*,elasticsearch/*,rabbitmq/*,mongodb/*,rocketmq/*,pulsar/*,activemq/*,flink/* # @feature: vm,mysql,postgresql,elasticsearch; enable the OC rules that analyse the metrics
+      SW_OTEL_RECEIVER_ENABLED_OTEL_METRICS_RULES: vm,mysql/*,postgresql/*,elasticsearch/*,rabbitmq/*,mongodb/*,rocketmq/*,pulsar/*,activemq/*,flink/* # @feature: vm,mysql,postgresql,elasticsearch; enable the OC rules that analyse the metrics
       SW_STORAGE: banyandb
       SW_STORAGE_BANYANDB_TARGETS: banyandb:17912
       SW_TELEMETRY: prometheus # @feature: so11y; expose the metrics of self o11y through prometheus
@@ -56,7 +58,7 @@ services:
       test: ["CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/11800"]
       interval: 30s
       timeout: 10s
-      retries: 3
+      retries: 30
     depends_on:
       banyandb:
         condition: service_healthy

@@ -28,9 +28,9 @@ docker: docker.build
 docker.build:
 	docker build \
 		--build-arg SW_AGENT_NODEJS_FRONTEND_VERSION=${SW_AGENT_NODEJS_FRONTEND_VERSION} \
-		. -t $(HUB)/frontend:$(TAG)
+		. -t $(HUB)/frontend:a83996b
 	docker build \
-		. -t $(HUB)/frontend:$(TAG)-agentless -f Dockerfile.agentless
+		. -t $(HUB)/frontend:a83996b-agentless -f Dockerfile.agentless
 
 docker.push: docker.build
 	docker push $(HUB)/frontend:$(TAG)

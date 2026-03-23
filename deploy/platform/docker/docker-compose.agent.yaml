@@ -105,6 +105,8 @@ services:
     environment:
       SW_AGENT_COLLECTOR_BACKEND_SERVICES: ${BACKEND_SERVICE}:11800
     networks: [ sw ]
+    ports:
+      - "9080:80"
     volumes:
       - ./config/apisix/apisix.yaml:/usr/local/apisix/conf/apisix.yaml
       - ./config/apisix/config.yaml:/usr/local/apisix/conf/config.yaml
